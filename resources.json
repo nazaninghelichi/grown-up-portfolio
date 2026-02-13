@@ -1,0 +1,11 @@
+{
+  "resources": [
+    {
+      "id": "example-resource",
+      "title": "Example Resource",
+      "description": "Description of the cool tool/article/resource",
+      "url": "https://example.com",
+      "tags": ["ML", "Tool"]
+    }
+  ]
+}

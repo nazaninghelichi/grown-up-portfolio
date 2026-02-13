@@ -420,6 +420,72 @@ main {
     text-decoration: underline;
 }
 
+/* Resources Section */
+.resources-card {
+    border: 1px solid var(--border-gray);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+}
+
+.resources-card .card-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.resource-item {
+    padding: 16px;
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.resource-item:hover {
+    background-color: var(--bg-light);
+}
+
+.resource-item h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.resource-item h4 a {
+    color: var(--text-dark);
+    text-decoration: none;
+}
+
+.resource-item h4 a:hover {
+    color: var(--accent-blue);
+}
+
+.resource-item p {
+    font-size: 13px;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.resource-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.resource-tag {
+    padding: 3px 8px;
+    background-color: var(--bg-light);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text-gray);
+}
+
 /* Case Study Card */
 .case-study-card {
     border: 1px solid var(--border-gray);

@@ -175,5 +175,38 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Load projects on page load
-document.addEventListener('DOMContentLoaded', loadProjects);
+// Load and display resources
+async function loadResources() {
+    try {
+        const response = await fetch('resources.json');
+        const data = await response.json();
+
+        if (data.resources && data.resources.length > 0) {
+            displayResources(data.resources);
+        }
+    } catch (error) {
+        console.error('Error loading resources:', error);
+    }
+}
+
+// Display resources in grid
+function displayResources(resources) {
+    const grid = document.getElementById('resources-grid');
+    if (!grid) return;
+
+    grid.innerHTML = resources.map(resource => `
+        <div class="resource-item">
+            <h4><a href="${resource.url}" target="_blank">${resource.title}</a></h4>
+            <p>${resource.description}</p>
+            <div class="resource-tags">
+                ${resource.tags.map(tag => `<span class="resource-tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Load projects and resources on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjects();
+    loadResources();
+});
