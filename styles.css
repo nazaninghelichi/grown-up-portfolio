@@ -238,6 +238,35 @@ main {
     text-decoration: underline;
 }
 
+/* Filter Buttons */
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 14px;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-gray);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: var(--border-gray);
+}
+
+.filter-btn.active {
+    background-color: var(--text-dark);
+    color: var(--bg-white);
+    border-color: var(--text-dark);
+}
+
 /* Carousel */
 .carousel-container {
     position: relative;
