@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazanin Ghelichi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-left">Nazanin</div>
+            <nav class="header-right">
+                <a href="#projects">Projects</a>
+                <a href="#case-study">Case Study</a>
+                <a href="#resume">Resume</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- About Me Card -->
+        <section class="about-card">
+            <div class="card-header">
+                <span class="label">About</span>
+                <div class="tags">
+                    <span class="tag">ML/LLM</span>
+                    <span class="tag">Data Science</span>
+                    <span class="tag">Product</span>
+                    <span class="tag">Python</span>
+                </div>
+            </div>
+
+            <h1>Hi, I'm Nazanin.</h1>
+            <p class="tagline">I build data + ML products, from idea → prototype → deployment.</p>
+
+            <div class="about-content">
+                <div class="about-left">
+                    <h3>What I do best</h3>
+                    <ul>
+                        <li>LLM features (RAG, agents, eval)</li>
+                        <li>ML pipelines + metrics</li>
+                        <li>Product-focused engineering</li>
+                    </ul>
+                </div>
+                <div class="about-right">
+                    <h3>Background</h3>
+                    <ul>
+                        <li>Number theory & cryptography</li>
+                        <li>Applied machine learning</li>
+                        <li>Exploring AI ↔ human impact</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-footer">
+                <a href="#resume" class="btn btn-primary">Resume</a>
+                <a href="https://github.com/nazaninghelichi" target="_blank" class="btn btn-secondary">GitHub</a>
+                <a href="https://www.linkedin.com/in/nazanin-ghelichi/" target="_blank" class="btn btn-secondary">LinkedIn</a>
+                <a href="mailto:thenazaning@gmail.com" class="link-text">Email me</a>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="projects-section">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+                <a href="#all-projects" class="view-all">View all →</a>
+            </div>
+
+            <div class="carousel-container">
+                <button class="carousel-btn prev" aria-label="Previous">&larr;</button>
+                <div class="projects-carousel" id="projects-carousel">
+                    <!-- Projects loaded dynamically -->
+                </div>
+                <button class="carousel-btn next" aria-label="Next">&rarr;</button>
+            </div>
+        </section>
+
+        <!-- ML Case Study (Optional) -->
+        <section id="case-study" class="case-study-card">
+            <div class="case-study-content">
+                <h3>ML Case Study: Model Development & Evaluation</h3>
+                <p>Deep dive into building, training, and evaluating production ML systems with real-world constraints.</p>
+                <a href="#" class="btn btn-outline">Read case study</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2026 Nazanin Ghelichi</p>
+            <div class="footer-links">
+                <a href="mailto:thenazaning@gmail.com">Email</a>
+                <span>•</span>
+                <a href="https://github.com/nazaninghelichi" target="_blank">GitHub</a>
+                <span>•</span>
+                <a href="https://www.linkedin.com/in/nazanin-ghelichi/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
