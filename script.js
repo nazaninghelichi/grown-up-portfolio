@@ -90,6 +90,7 @@ function displayProjects(projects) {
                 </div>
                 <div class="project-links">
                     ${project.demo ? `<a href="${project.demo}" target="_blank">Live</a>` : ''}
+                    ${project.video ? `<a href="${project.video}" target="_blank">Video</a>` : ''}
                     ${project.pitch ? `<a href="${project.pitch}" target="_blank">Pitch Deck</a>` : ''}
                     ${project.github ? `<a href="${project.github}" target="_blank">GitHub</a>` : ''}
                     ${project.caseStudy ? `<a href="${project.caseStudy}">Case Study</a>` : ''}
