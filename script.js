@@ -22,7 +22,7 @@ function displayProjects(projects) {
     carousel.innerHTML = projects.map(project => `
         <div class="project-card">
             <div class="project-thumbnail">
-                ${project.image || 'Screenshot'}
+                ${project.image ? `<img src="${project.image}" alt="${project.title}">` : 'Screenshot'}
             </div>
             <h3>${project.title}</h3>
             <p class="project-subtitle">${project.category}</p>

@@ -314,6 +314,13 @@ main {
     justify-content: center;
     color: var(--text-light);
     font-size: 14px;
+    overflow: hidden;
+}
+
+.project-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .project-card h3 {
