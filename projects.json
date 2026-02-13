@@ -14,6 +14,20 @@
       "image": "nutology.png",
       "featured": true,
       "date": "2025-05"
+    },
+    {
+      "id": "ds-mle-roadmap",
+      "title": "DS + MLE 4-Month Roadmap",
+      "category": "Data Science",
+      "description": "Interactive 16-week study planner with daily execution plans, LeetCode tracking, and interview prep",
+      "highlight": "Full execution system: focus timer, progress analytics, week-gating logic, and local storage persistence",
+      "technologies": ["JavaScript", "HTML", "CSS", "Local Storage", "File System API"],
+      "skills": ["Data Science", "ML Engineering", "Product Development", "User Analytics"],
+      "github": "https://github.com/nazaninghelichi/ds-mle-roadmap",
+      "demo": "",
+      "image": "",
+      "featured": true,
+      "date": "2025-01"
     }
   ]
 }
