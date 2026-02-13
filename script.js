@@ -80,6 +80,7 @@ function displayProjects(projects) {
             <ul>
                 ${project.description ? `<li>${project.description}</li>` : ''}
                 ${project.highlight ? `<li>${project.highlight}</li>` : ''}
+                ${project.detail ? `<li>${project.detail}</li>` : ''}
             </ul>
             <div class="project-footer">
                 <div class="project-tags">
