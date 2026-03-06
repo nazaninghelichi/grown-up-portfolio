@@ -16,6 +16,22 @@
       "image": "nutology.png",
       "featured": true,
       "date": "2025-05"
+    },
+    {
+      "id": "gmail-graveyard",
+      "title": "Gmail Graveyard",
+      "category": "Software Engineering",
+      "description": "Python-based Gmail cleanup tool—bulk deletes old emails, extracts unsubscribe links, and auto-categorizes your inbox",
+      "highlight": "Google OAuth2 auth, dry-run preview mode, and scheduled cleanup routines",
+      "detail": "CLI tool with configurable rules for protecting priority emails while purging the rest",
+      "technologies": ["Python", "Gmail API", "Google OAuth2", "YAML"],
+      "skills": ["API Integration", "Automation", "CLI Tools", "Email Management"],
+      "github": "https://github.com/nazaninghelichi/Gmail-graveyard",
+      "demo": "",
+      "video": "",
+      "image": "",
+      "featured": true,
+      "date": "2026-03"
     }
   ]
 }
