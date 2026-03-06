@@ -32,6 +32,22 @@
       "image": "",
       "featured": true,
       "date": "2026-03"
+    },
+    {
+      "id": "yadetam",
+      "title": "Yadetam — Iran Incident Monitor",
+      "category": "Data Science",
+      "description": "Interactive map aggregating bombing and airstrike incidents across Iran to help diaspora families track safety",
+      "highlight": "Live data from ACLED API with auto-refresh, bilingual Persian/English with RTL support",
+      "detail": "Color-coded markers by frequency, date filtering, and mobile-responsive design",
+      "technologies": ["Next.js", "React", "Leaflet", "Tailwind CSS", "ACLED API", "GDELT"],
+      "skills": ["Data Visualization", "Geospatial Mapping", "Internationalization", "API Integration"],
+      "github": "https://github.com/nazaninghelichi/yadetam",
+      "demo": "",
+      "video": "",
+      "image": "",
+      "featured": true,
+      "date": "2026-03"
     }
   ]
 }
