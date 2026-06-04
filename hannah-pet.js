@@ -165,9 +165,11 @@
       this.vx = (Math.random()>0.5?1:-1)*(0.6+Math.random()*0.7);
       this.facing = this.vx>0?1:-1;
       this.t = Math.random()*100;
-      this.state = 'walking';
-      this.stateTick = Math.floor(Math.random()*180);
-      this.stateDuration = 200+Math.floor(Math.random()*200);
+      this.state = Math.random() < 0.5 ? 'sleeping' : 'walking';
+      this.stateTick = Math.floor(Math.random()*120);
+      this.stateDuration = this.state==='sleeping'
+        ? 400+Math.floor(Math.random()*400)
+        : 80+Math.floor(Math.random()*100);
       this.showSign = false;
       this.signTick = 0;
       this.bounce = 0;
@@ -202,15 +204,22 @@
       if (this.stateTick >= this.stateDuration) {
         this.stateTick = 0;
         if (this.state==='walking') {
-          this.state='sitting';
-          this.stateDuration=120+Math.floor(Math.random()*100);
-          this.showSign=true;
-          this.signTick=180;
-          this.vx=0;
+          // 70% chance to sleep, 30% chance to sit with sign
+          if (Math.random() < 0.7) {
+            this.state='sleeping';
+            this.stateDuration=350+Math.floor(Math.random()*400);
+            this.vx=0;
+          } else {
+            this.state='sitting';
+            this.stateDuration=150+Math.floor(Math.random()*100);
+            this.showSign=true;
+            this.signTick=200;
+            this.vx=0;
+          }
         } else {
           this.state='walking';
-          this.stateDuration=180+Math.floor(Math.random()*200);
-          this.vx=(Math.random()>0.5?1:-1)*(0.6+Math.random()*0.7);
+          this.stateDuration=60+Math.floor(Math.random()*80);
+          this.vx=(Math.random()>0.5?1:-1)*(0.5+Math.random()*0.5);
           this.facing=this.vx>0?1:-1;
         }
       }
@@ -233,8 +242,9 @@
       const bob = this.state==='walking' ? Math.sin(this.t*6)*1.5 : 0;
       const legSwing = this.state==='walking' ? Math.sin(this.t*6)*14 : 0;
 
-      if (this.state==='sitting') {
-        // sitting: no leg swing, gentle bob
+      if (this.state==='sleeping') {
+        drawSleeping(ctx, this.t);
+      } else if (this.state==='sitting') {
         drawWalking(ctx, this.t, 0, 0);
       } else {
         drawWalking(ctx, this.t, legSwing, bob);
