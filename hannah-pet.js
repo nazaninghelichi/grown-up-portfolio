@@ -347,11 +347,17 @@
       G.bladder=Math.max(0,G.bladder-.015*dt*60);
     }
 
+    // auto-sleep when exhausted
+    if(G.energy<18&&G.state==='walking'&&!G.dragging){
+      G.state='to_house';
+      G.request='💤 sleepy...';G.reqTimer=4;G.lastReq=G.t;
+    }
+
     // request
     if(G.reqTimer>0){G.reqTimer-=dt;if(G.reqTimer<=0)G.request=null;}
-    if(!G.request&&G.t-G.lastReq>15){
+    if(!G.request&&G.t-G.lastReq>12){
       if(G.hunger<30)      G.request='🍖 hungry!';
-      else if(G.energy<25) G.request='💤 sleepy...';
+      else if(G.energy<30) G.request='💤 sleepy...';
       else if(G.happy<30)  G.request=Math.random()<.5?'🧸 teddy?':'🐾 pet me!';
       if(G.request){G.reqTimer=7;G.lastReq=G.t;}
     }
@@ -456,19 +462,20 @@
       drawHannah(G.t, walking?Math.sin(G.t*6)*14:0, walking?Math.sin(G.t*6)*1.5:0, false);
       ctx.restore();
     } else {
-      // peek from door
-      ctx.save();ctx.translate(HOUSE_X+HOUSE_W/2-8,GROUND);
-      ctx.scale(.55,.55);
-      drawHannah(G.t,0,Math.sin(G.t*.8)*2,false);
+      // sleeping inside house — small sleeping blob visible in door
+      ctx.save();ctx.translate(HOUSE_X+HOUSE_W/2-8,GROUND-2);ctx.scale(.5,.5);
+      drawSleeping(G.t);
       ctx.restore();
     }
 
     // hearts
     G.hearts.forEach(h=>{ctx.globalAlpha=h.a;ctx.font='15px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('❤️',h.x,h.y);ctx.globalAlpha=1;});
 
-    // speech / flash
-    if(G.flash&&G.flashTimer>0) drawBubble(G.x+16,G.y-65,G.flash);
-    else if(G.request&&G.reqTimer>0) drawBubble(G.x+16,G.y-65,G.request);
+    // speech / flash — show above house when inside
+    const bubX = G.state==='inside' ? HOUSE_X+HOUSE_W/2 : G.x+16;
+    const bubY = G.state==='inside' ? HOUSE_TOP-8 : G.y-65;
+    if(G.flash&&G.flashTimer>0) drawBubble(bubX,bubY,G.flash);
+    else if(G.request&&G.reqTimer>0) drawBubble(bubX,bubY,G.request);
 
     // particles
     G.particles.forEach(p=>{ctx.save();ctx.globalAlpha=p.life*1.5;ctx.fillStyle=p.col;ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();ctx.restore();});
