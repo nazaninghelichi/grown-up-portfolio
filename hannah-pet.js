@@ -14,9 +14,11 @@ class HannahPet {
     this.frame = 0;
     this.frameTick = 0;
 
-    this.state = 'walking';
+    this.state = 'sitting';
     this.stateTick = 0;
-    this.stateDuration = 300;
+    this.stateDuration = 160;
+    this.speechPending = null;
+    this.speechDelay = 0;
 
     this.speech = null;
     this.speechTick = 0;
@@ -52,6 +54,10 @@ class HannahPet {
 
     this.resize();
     window.addEventListener('resize', () => this.resize());
+
+    // Say hi immediately
+    setTimeout(() => this.say("hi!! i'm Hannah 🐾", 220), 800);
+
     this.loop();
   }
 
@@ -86,6 +92,15 @@ class HannahPet {
     this.bobTick += 0.12;
     this.bobOffset = Math.sin(this.bobTick) * 2;
 
+    // Delayed speech
+    if (this.speechDelay > 0) {
+      this.speechDelay--;
+      if (this.speechDelay === 0 && this.speechPending) {
+        this.say(this.speechPending, 230);
+        this.speechPending = null;
+      }
+    }
+
     this.stateTick++;
     if (this.stateTick >= this.stateDuration) {
       this.stateTick = 0;
@@ -106,27 +121,31 @@ class HannahPet {
 
   pickState() {
     const r = Math.random();
-    if (r < 0.55) {
+    if (r < 0.40) {
       this.state = 'walking';
-      this.stateDuration = 180 + Math.floor(Math.random() * 220);
+      this.stateDuration = 120 + Math.floor(Math.random() * 140);
       this.vx = (Math.random() > 0.5 ? 1 : -1) * (1.2 + Math.random() * 0.6);
       if (this.vx > 0) this.facing = 1; else this.facing = -1;
-    } else if (r < 0.78) {
+      // Occasionally mutters something while walking
+      if (Math.random() < 0.4) {
+        this.scheduleSpeech(this.recruiterLines[Math.floor(Math.random() * this.recruiterLines.length)], 30);
+      }
+    } else if (r < 0.75) {
       this.state = 'sitting';
-      this.stateDuration = 120 + Math.floor(Math.random() * 160);
+      this.stateDuration = 140 + Math.floor(Math.random() * 120);
       this.vx = 0;
-      const line = this.recruiterLines[Math.floor(Math.random() * this.recruiterLines.length)];
-      setTimeout(() => this.say(line, 200), 600);
-    } else if (r < 0.92) {
-      this.state = 'sleeping';
-      this.stateDuration = 160 + Math.floor(Math.random() * 180);
-      this.vx = 0;
-      setTimeout(() => this.say('...zzz 💤', 220), 400);
+      this.scheduleSpeech(this.recruiterLines[Math.floor(Math.random() * this.recruiterLines.length)], 25);
     } else {
-      this.state = 'excited';
-      this.stateDuration = 100;
-      this.vx = this.facing * 4;
+      this.state = 'sleeping';
+      this.stateDuration = 130 + Math.floor(Math.random() * 120);
+      this.vx = 0;
+      this.scheduleSpeech('...zzz 💤', 20);
     }
+  }
+
+  scheduleSpeech(text, delayFrames) {
+    this.speechPending = text;
+    this.speechDelay = delayFrames;
   }
 
   draw() {
