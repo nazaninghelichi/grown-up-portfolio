@@ -237,8 +237,6 @@
           } else {
             this.state='sitting';
             this.stateDuration=300+Math.floor(Math.random()*200);
-            this.showSign=true;
-            this.signTick=200;
             this.vx=0;
           }
         } else {
@@ -292,11 +290,6 @@
 
       ctx.restore();
 
-      // sign (not flipped)
-      if (this.showSign && !this.dropping) {
-        const sx = this.facing===1 ? this.x+16 : this.x-16;
-        drawSign(ctx, sx, drawY-72, this.sign);
-      }
     }
 
     hitTest(cx, cy) {
