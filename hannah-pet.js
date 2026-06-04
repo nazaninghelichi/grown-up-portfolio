@@ -35,8 +35,9 @@
     t: 0,
     // needs
     hunger: 80, happy: 75, energy: 90, bladder: 0,
-    // food item
-    food: null,  // {x, y, dragging, dragOx, dragOy} or null
+    // food + toy items
+    food: null,
+    toy: null,
     // hannah
     x: HOUSE_X + HOUSE_W/2, y: GROUND,
     vx: 0.5, facing: 1,
@@ -232,6 +233,11 @@
       G.food.dragging=true;G.food.dragOx=x-G.food.x;G.food.dragOy=y-G.food.y;
       return;
     }
+    // drag toy
+    if(G.toy&&Math.hypot(x-G.toy.x,y-G.toy.y)<18){
+      G.toy.dragging=true;G.toy.dragOx=x-G.toy.x;G.toy.dragOy=y-G.toy.y;
+      return;
+    }
     // drag hannah (or from house door)
     const fromHouse=G.state==='inside'&&x>=HOUSE_X&&x<=HOUSE_X+HOUSE_W&&y>=HOUSE_TOP;
     if(fromHouse||nearHannah(x,y)){
@@ -251,6 +257,7 @@
       }
     }
     if(G.food?.dragging){G.food.x=x-G.food.dragOx;G.food.y=y-G.food.dragOy;}
+    if(G.toy?.dragging){G.toy.x=x-G.toy.dragOx;G.toy.y=y-G.toy.dragOy;}
     if(G.dragging){G.x=x-G.dragOx;G.y=y-G.dragOy;}
   });
 
@@ -264,6 +271,17 @@
         G.flash='yum! 😋';G.flashTimer=2;
         spawnParticles(G.x+16,G.y-30,'#E8803A');
         G.food=null;
+      }
+      return;
+    }
+    // drop toy near Hannah
+    if(G.toy?.dragging){
+      G.toy.dragging=false;
+      if(G.state!=='inside'&&nearHannah(x,y,60)){
+        G.happy=Math.min(100,G.happy+35);
+        G.flash='yay! 🧸';G.flashTimer=2;
+        spawnParticles(G.x+16,G.y-30,'#E8C830');
+        G.toy=null;
       }
       return;
     }
@@ -290,8 +308,7 @@
     G.food={x:HOUSE_X+HOUSE_W+20,y:GROUND-10,dragging:false,dragOx:0,dragOy:0};
   };
   document.getElementById('h-toy').onclick=()=>{
-    G.happy=Math.min(100,G.happy+35);G.flash='yay! 🧸';G.flashTimer=2;
-    spawnParticles(G.x+16,G.y-30,'#E8C830');
+    G.toy={x:HOUSE_X+HOUSE_W+20,y:GROUND-10,dragging:false,dragOx:0,dragOy:0};
   };
   document.getElementById('h-pet').onclick=()=>{
     G.happy=Math.min(100,G.happy+20);
@@ -411,6 +428,24 @@
       ctx.fillStyle='#888';ctx.font='9px sans-serif';ctx.textAlign='center';
       ctx.fillText('drag to Hannah',0,-18);
       ctx.restore();
+    }
+
+    // toy item
+    if(G.toy){
+      const f=G.toy, tc='#D0C8BE', td='#9A9490';
+      ctx.save();ctx.translate(f.x,f.y);ctx.scale(.7,.7);
+      ctx.beginPath();ctx.ellipse(0,4,11,13,0,0,Math.PI*2);ctx.fillStyle=tc;ctx.fill();ctx.strokeStyle=td;ctx.lineWidth=1.5;ctx.stroke();
+      ctx.beginPath();ctx.arc(0,-13,11,0,Math.PI*2);ctx.fillStyle=tc;ctx.fill();ctx.stroke();
+      [[-8,-23],[8,-23]].forEach(([ex,ey])=>{
+        ctx.beginPath();ctx.arc(ex,ey,6,0,Math.PI*2);ctx.fillStyle=tc;ctx.fill();ctx.stroke();
+        ctx.beginPath();ctx.arc(ex,ey,3,0,Math.PI*2);ctx.fillStyle='#F0A0A0';ctx.fill();
+      });
+      ctx.beginPath();ctx.arc(-4,-14,2,0,Math.PI*2);ctx.fillStyle=td;ctx.fill();
+      ctx.beginPath();ctx.arc(4,-14,2,0,Math.PI*2);ctx.fillStyle=td;ctx.fill();
+      ctx.beginPath();ctx.ellipse(0,-9,3,2,0,0,Math.PI*2);ctx.fillStyle=td;ctx.fill();
+      ctx.restore();
+      ctx.fillStyle='#888';ctx.font='9px sans-serif';ctx.textAlign='center';
+      ctx.fillText('drag to Hannah',f.x,f.y-26);
     }
 
     // hannah
