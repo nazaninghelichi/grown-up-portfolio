@@ -122,9 +122,7 @@
   function drawScene() {
     const w=canvas.width, h=canvas.height;
 
-    // background
-    ctx.fillStyle='rgba(250,248,244,0.97)';
-    ctx.fillRect(0,0,w,h);
+    // no background — canvas is transparent, page shows through
 
     // full-width ground scene
     const groundY=Z.ground;
@@ -224,7 +222,7 @@
 
   function drawHUD() {
     const w=canvas.width;
-    ctx.fillStyle='rgba(255,255,255,0.94)';
+    ctx.fillStyle='rgba(255,255,255,0.88)';
     ctx.fillRect(0,0,w,48);
     ctx.strokeStyle='#eaeaea'; ctx.lineWidth=1;
     ctx.beginPath(); ctx.moveTo(0,48); ctx.lineTo(w,48); ctx.stroke();
