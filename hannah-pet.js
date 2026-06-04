@@ -4,7 +4,7 @@
 
   // ── Canvas ───────────────────────────────────────────────────────
   const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;height:150px;z-index:9999;cursor:default';
+  canvas.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;height:150px;z-index:9999;cursor:default;pointer-events:none';
   document.body.appendChild(canvas);
   const ctx = canvas.getContext('2d');
 
@@ -214,10 +214,16 @@
     return{x:(s.clientX-r.left)*sx,y:(s.clientY-r.top)*sy};
   }
 
+  function inCanvas(e){
+    const r=canvas.getBoundingClientRect();
+    const s=e.touches?e.touches[0]:e;
+    return s.clientY>=r.top;
+  }
+
   function nearHannah(x,y,r=45){return Math.hypot(x-G.x-16,y-G.y+30)<r;}
   function nearHouse(x){return x<HOME_ZONE;}
 
-  canvas.addEventListener('mousedown',e=>{
+  document.addEventListener('mousedown',e=>{if(!inCanvas(e))return;
     const{x,y}=pos(e);
     // click poop
     for(let i=G.poops.length-1;i>=0;i--){
@@ -246,7 +252,7 @@
     }
   });
 
-  canvas.addEventListener('mousemove',e=>{
+  document.addEventListener('mousemove',e=>{
     const{x,y}=pos(e);pmx=mx;pmy=my;mx=x;my=y;
     // petting
     if(!G.dragging&&G.state!=='inside'&&nearHannah(x,y,48)){
@@ -261,7 +267,7 @@
     if(G.dragging){G.x=x-G.dragOx;G.y=y-G.dragOy;}
   });
 
-  canvas.addEventListener('mouseup',e=>{
+  document.addEventListener('mouseup',e=>{
     const{x,y}=pos(e);
     // drop food near Hannah
     if(G.food?.dragging){
@@ -299,7 +305,11 @@
 
   // touch
   ['touchstart','touchmove','touchend'].forEach(ev=>{
-    canvas.addEventListener(ev,e=>{e.preventDefault();canvas.dispatchEvent(new MouseEvent(ev==='touchstart'?'mousedown':ev==='touchend'?'mouseup':'mousemove',{clientX:e.touches[0]?.clientX||e.changedTouches[0].clientX,clientY:e.touches[0]?.clientY||e.changedTouches[0].clientY}));},{passive:false});
+    document.addEventListener(ev,e=>{
+      if(!inCanvas(e))return;
+      e.preventDefault();
+      document.dispatchEvent(new MouseEvent(ev==='touchstart'?'mousedown':ev==='touchend'?'mouseup':'mousemove',{clientX:e.touches[0]?.clientX||e.changedTouches[0].clientX,clientY:e.touches[0]?.clientY||e.changedTouches[0].clientY}));
+    },{passive:false});
   });
 
   // Dashboard buttons
