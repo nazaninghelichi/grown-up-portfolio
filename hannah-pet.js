@@ -184,7 +184,7 @@
       });
     }
     // trees
-    [CW*.3,CW*.5,CW*.7,CW*.88].forEach((tx,i)=>{
+    [CW*.08,CW*.22,CW*.78,CW*.92].forEach((tx,i)=>{
       ctx.beginPath();ctx.roundRect(tx-3,GROUND-22,6,22,2);ctx.fillStyle='#8B6030';ctx.fill();
       [[0,-36,18],[0,-50,13],[0,-59,9]].forEach(([ox,oy,r])=>{
         ctx.beginPath();ctx.arc(tx+ox,GROUND+oy,r,0,Math.PI*2);
