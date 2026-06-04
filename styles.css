@@ -486,27 +486,6 @@ main {
     color: var(--text-gray);
 }
 
-/* Case Study Card */
-.case-study-card {
-    border: 1px solid var(--border-gray);
-    border-radius: 16px;
-    padding: 32px;
-    margin-bottom: 64px;
-}
-
-.case-study-content h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-.case-study-content p {
-    font-size: 15px;
-    color: var(--text-gray);
-    margin-bottom: 20px;
-    max-width: 600px;
-}
-
 /* Footer */
 footer {
     border-top: 1px solid var(--border-gray);
