@@ -221,7 +221,7 @@
       const p=G.poops[i];
       if(!p.popping&&Math.hypot(x-p.x,y-p.y)<p.r+8){
         p.popping=true;p.popT=0;
-        for(let j=0;j<8;j++) G.particles.push({x:p.x,y:p.y,vx:(Math.random()-.5)*4,vy:-Math.random()*3-.5,life:.5,col:'#8B5A2A'});
+        for(let j=0;j<8;j++) G.particles.push({x:p.x,y:p.y,vx:(Math.random()-.5)*4,vy:-Math.random()*3-.5,life:.5,col:'#3D1A08'});
         return;
       }
     }
@@ -368,7 +368,7 @@
       ctx.save();ctx.translate(p.x,p.y);ctx.scale(sc,sc);
       ctx.globalAlpha=p.popping?Math.max(0,1-p.popT*2.5):1;
       ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);
-      ctx.fillStyle='#8B5A2A';ctx.fill();
+      ctx.fillStyle='#3D1A08';ctx.fill();
       ctx.beginPath();ctx.arc(-2,-2,p.r*.4,0,Math.PI*2);
       ctx.fillStyle='rgba(255,255,255,0.15)';ctx.fill();
       ctx.globalAlpha=1;ctx.restore();
