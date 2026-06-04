@@ -26,9 +26,9 @@
       "technologies": ["Python", "Flask", "Groq API", "RAG", "Chart.js", "Railway"],
       "skills": ["Multi-Agent Systems", "RAG", "LLM Orchestration", "Hackathon", "Deployment"],
       "github": "https://github.com/nazaninghelichi/roast",
-      "demo": "",
+      "demo": "https://roast.up.railway.app/",
       "video": "",
-      "image": "",
+      "image": "roast-demo.jpeg",
       "featured": true,
       "date": "2026-04"
     },
