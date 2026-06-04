@@ -158,7 +158,8 @@
     constructor(canvasW, canvasH, sign) {
       this.sign = sign;
       this.x = 60 + Math.random() * (canvasW - 160);
-      this.y = -80; // start above screen for drop
+      this.startY = -320;
+      this.y = this.startY;
       this.vy = 0;
       this.dropping = true;
       this.groundY = canvasH - 10;
@@ -172,7 +173,20 @@
         : 80+Math.floor(Math.random()*100);
       this.showSign = false;
       this.signTick = 0;
-      this.bounce = 0;
+      this.squish = 0;    // squish on landing
+      this.bounceV = 0;   // bounce velocity after land
+      this.bounceY = 0;   // bounce height offset
+    }
+
+    get spinAngle() {
+      if (!this.dropping) return 0;
+      const progress = Math.max(0, (this.y - this.startY) / (this.groundY - this.startY));
+      return (1 - progress) * Math.PI * 4; // 2 full spins
+    }
+
+    get shadowScale() {
+      const progress = Math.max(0, (this.y - this.startY) / (this.groundY - this.startY));
+      return Math.min(1, progress);
     }
 
     update(canvasW) {
@@ -180,18 +194,29 @@
 
       // drop from sky
       if (this.dropping) {
-        this.vy += 1.2;
+        this.vy += 1.5;
         this.y += this.vy;
         if (this.y >= this.groundY) {
           this.y = this.groundY;
-          this.bounce = 12;
           this.dropping = false;
           this.vy = 0;
+          this.squish = 18;      // frames of squish
+          this.bounceV = -14;    // pop back up
+          this.bounceY = 0;
+          screenShake = 8;
         }
         return;
       }
 
-      if (this.bounce > 0) this.bounce -= 1.5;
+      // squish decay
+      if (this.squish > 0) this.squish -= 1.2;
+
+      // bounce
+      if (this.bounceY < 0 || this.bounceV < 0) {
+        this.bounceV += 1.2;
+        this.bounceY += this.bounceV;
+        if (this.bounceY >= 0) { this.bounceY = 0; this.bounceV = 0; }
+      }
 
       // sign timer
       if (this.showSign) {
@@ -233,11 +258,26 @@
 
     draw(ctx) {
       const groundY = this.groundY;
-      const drawY = this.dropping ? this.y : groundY - Math.max(0,this.bounce);
+      const drawY = this.dropping ? this.y : groundY + this.bounceY;
+
+      // growing shadow on ground
+      const ss = this.shadowScale;
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(this.x+16, groundY+4, 24*ss, 5*ss, 0, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,0,0,${0.12*ss})`;
+      ctx.fill();
+      ctx.restore();
+
+      // squish + spin transform
+      const squishAmt = this.squish > 0 ? Math.max(0, this.squish/18) : 0;
+      const scaleX = 1 + squishAmt * 0.5;
+      const scaleY = 1 - squishAmt * 0.5;
 
       ctx.save();
       ctx.translate(this.x, drawY);
-      if (this.facing===-1) ctx.scale(-1,1);
+      if (this.dropping) ctx.rotate(this.spinAngle);
+      ctx.scale(this.facing===-1 ? -scaleX : scaleX, scaleY);
 
       const bob = this.state==='walking' ? Math.sin(this.t*6)*1.5 : 0;
       const legSwing = this.state==='walking' ? Math.sin(this.t*6)*14 : 0;
@@ -274,6 +314,7 @@
   let dogs = [];
   let signPool = [...SIGNS].sort(()=>Math.random()-0.5);
   let signIdx = 0;
+  let screenShake = 0;
 
   function nextSign() {
     const s = signPool[signIdx % signPool.length];
@@ -311,7 +352,21 @@
 
   function loop() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // screen shake
+    if (screenShake > 0) {
+      const sx = (Math.random()-0.5)*screenShake;
+      const sy = (Math.random()-0.5)*screenShake*0.5;
+      ctx.save();
+      ctx.translate(sx, sy);
+      screenShake *= 0.75;
+      if (screenShake < 0.3) screenShake = 0;
+    }
+
     dogs.forEach(d => { d.update(canvas.width); d.draw(ctx); });
+
+    if (screenShake > 0) ctx.restore();
+
     requestAnimationFrame(loop);
   }
   loop();
