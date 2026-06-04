@@ -51,7 +51,7 @@
   }
 
   function drawWalking(ctx, t, legSwing, bob) {
-    const tailWag = Math.sin(t*5)*28;
+    const tailWag = Math.sin(t*2)*18;
 
     // tail
     ctx.save(); ctx.translate(-20,-22+bob);
