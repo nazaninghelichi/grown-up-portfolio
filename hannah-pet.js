@@ -169,7 +169,7 @@
       this.state = Math.random() < 0.5 ? 'sleeping' : 'walking';
       this.stateTick = Math.floor(Math.random()*120);
       this.stateDuration = this.state==='sleeping'
-        ? 900+Math.floor(Math.random()*600)
+        ? 300+Math.floor(Math.random()*180)
         : 300+Math.floor(Math.random()*200);
       this.showSign = false;
       this.signTick = 0;
@@ -232,7 +232,7 @@
           // 70% chance to sleep, 30% chance to sit with sign
           if (Math.random() < 0.7) {
             this.state='sleeping';
-            this.stateDuration=900+Math.floor(Math.random()*600);
+            this.stateDuration=300+Math.floor(Math.random()*180);
             this.vx=0;
           } else {
             this.state='sitting';
