@@ -169,8 +169,8 @@
       this.state = Math.random() < 0.5 ? 'sleeping' : 'walking';
       this.stateTick = Math.floor(Math.random()*120);
       this.stateDuration = this.state==='sleeping'
-        ? 400+Math.floor(Math.random()*400)
-        : 80+Math.floor(Math.random()*100);
+        ? 900+Math.floor(Math.random()*600)
+        : 300+Math.floor(Math.random()*200);
       this.showSign = false;
       this.signTick = 0;
       this.squish = 0;    // squish on landing
@@ -232,18 +232,18 @@
           // 70% chance to sleep, 30% chance to sit with sign
           if (Math.random() < 0.7) {
             this.state='sleeping';
-            this.stateDuration=350+Math.floor(Math.random()*400);
+            this.stateDuration=900+Math.floor(Math.random()*600);
             this.vx=0;
           } else {
             this.state='sitting';
-            this.stateDuration=150+Math.floor(Math.random()*100);
+            this.stateDuration=300+Math.floor(Math.random()*200);
             this.showSign=true;
             this.signTick=200;
             this.vx=0;
           }
         } else {
           this.state='walking';
-          this.stateDuration=60+Math.floor(Math.random()*80);
+          this.stateDuration=300+Math.floor(Math.random()*200);
           this.vx=(Math.random()>0.5?1:-1)*(0.2+Math.random()*0.25);
           this.facing=this.vx>0?1:-1;
         }
