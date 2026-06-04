@@ -61,6 +61,14 @@ class HannahPet {
   }
 
   drawHannah(x, y) {
+    if (this.state === 'sleeping') {
+      this.drawSleeping(x, y);
+    } else {
+      this.drawWalking(x, y);
+    }
+  }
+
+  drawSleeping(x, y) {
     const ctx = this.ctx;
     ctx.save();
     ctx.translate(x, y);
@@ -69,11 +77,128 @@ class HannahPet {
     const cream = '#F2DFB6';
     const golden = '#D4A262';
     const dark = '#A87840';
-    const sleeping = this.state === 'sleeping';
-    const legSwing = !sleeping ? Math.sin(this.frame * Math.PI / 2) * 10 : 0;
 
-    // Tail wag
-    const tailWag = Math.sin(this.bobTick * (sleeping ? 0.5 : 3)) * (sleeping ? 5 : 15);
+    // Legs stretched out front
+    ctx.beginPath();
+    ctx.roundRect(18, -8, 28, 7, 4);
+    ctx.fillStyle = golden;
+    ctx.fill();
+
+    // Body — wide flat ellipse lying down
+    ctx.beginPath();
+    ctx.ellipse(0, -12, 32, 10, 0, 0, Math.PI * 2);
+    ctx.fillStyle = cream;
+    ctx.fill();
+
+    // Fluffy body curls on top
+    for (let i = 0; i < 9; i++) {
+      ctx.beginPath();
+      ctx.arc(-28 + i * 7, -17 + Math.sin(i * 1.2) * 3, 5, 0, Math.PI * 2);
+      ctx.fillStyle = i % 2 === 0 ? '#EDD5A0' : cream;
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.ellipse(0, -13, 26, 7, 0, 0, Math.PI * 2);
+    ctx.fillStyle = cream;
+    ctx.fill();
+
+    // Tail curled behind body
+    const tailWag = Math.sin(this.bobTick * 0.4) * 6;
+    ctx.save();
+    ctx.translate(-30, -8);
+    ctx.rotate((tailWag * Math.PI) / 180);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(-10, -12, -6, -22);
+    ctx.strokeStyle = golden;
+    ctx.lineWidth = 7;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(-6, -22, 6, 0, Math.PI * 2);
+    ctx.fillStyle = cream;
+    ctx.fill();
+    ctx.restore();
+
+    // Head resting flat — to the right, chin on paws
+    const hx = 28, hy = -14;
+
+    // Ear flopped down
+    ctx.beginPath();
+    ctx.ellipse(hx + 2, hy + 6, 10, 6, 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = golden;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(hx - 2, hy - 10, 6, 10, -0.1, 0, Math.PI * 2);
+    ctx.fillStyle = golden;
+    ctx.fill();
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(hx, hy, 14, 0, Math.PI * 2);
+    ctx.fillStyle = '#EDD5A0';
+    ctx.fill();
+
+    // Fluffy head
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.arc(hx + Math.cos(a) * 11, hy + Math.sin(a) * 11, 5, 0, Math.PI * 2);
+      ctx.fillStyle = i % 2 === 0 ? '#EDD5A0' : cream;
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.arc(hx, hy, 10, 0, Math.PI * 2);
+    ctx.fillStyle = cream;
+    ctx.fill();
+
+    // Closed eyes
+    [hx - 4, hx + 4].forEach(ex => {
+      ctx.beginPath();
+      ctx.arc(ex, hy - 1, 3, Math.PI + 0.5, Math.PI * 2 - 0.5);
+      ctx.strokeStyle = dark;
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+    });
+
+    // Nose
+    ctx.beginPath();
+    ctx.ellipse(hx, hy + 5, 3.5, 2.5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#C87070';
+    ctx.fill();
+
+    // Collar
+    ctx.beginPath();
+    ctx.roundRect(hx - 12, hy + 8, 22, 5, 2);
+    ctx.fillStyle = '#CC2222';
+    ctx.fill();
+
+    // zzz
+    ctx.fillStyle = dark;
+    ctx.textAlign = 'left';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.fillText('z', hx + 16, hy - 16);
+    ctx.font = 'bold 8px sans-serif';
+    ctx.fillText('z', hx + 22, hy - 26);
+    ctx.font = 'bold 6px sans-serif';
+    ctx.fillText('z', hx + 27, hy - 34);
+
+    ctx.restore();
+  }
+
+  drawWalking(x, y) {
+    const ctx = this.ctx;
+    ctx.save();
+    ctx.translate(x, y);
+    if (this.facing === -1) ctx.scale(-1, 1);
+
+    const cream = '#F2DFB6';
+    const golden = '#D4A262';
+    const dark = '#A87840';
+    const legSwing = Math.sin(this.frame * Math.PI / 2) * 10;
+
+    // Tail
+    const tailWag = Math.sin(this.bobTick * 3) * 18;
     ctx.save();
     ctx.translate(-22, -20);
     ctx.rotate((tailWag * Math.PI) / 180);
@@ -91,121 +216,87 @@ class HannahPet {
     ctx.restore();
 
     // Legs
-    if (sleeping) {
-      [[-10, 0], [0, 0], [10, 0], [20, 0]].forEach(([lx]) => {
-        ctx.beginPath();
-        ctx.roundRect(lx - 3, 2, 7, 8, 3);
-        ctx.fillStyle = golden;
-        ctx.fill();
-      });
-    } else {
-      [[-14, legSwing], [-4, -legSwing], [6, -legSwing], [16, legSwing]].forEach(([lx, swing]) => {
-        ctx.save();
-        ctx.translate(lx, -4);
-        ctx.rotate((swing * Math.PI) / 180);
-        ctx.beginPath();
-        ctx.roundRect(-3, 0, 7, 17, 3);
-        ctx.fillStyle = golden;
-        ctx.fill();
-        ctx.restore();
-      });
-    }
+    [[-14, legSwing], [-4, -legSwing], [6, -legSwing], [16, legSwing]].forEach(([lx, swing]) => {
+      ctx.save();
+      ctx.translate(lx, -4);
+      ctx.rotate((swing * Math.PI) / 180);
+      ctx.beginPath();
+      ctx.roundRect(-3, 0, 7, 17, 3);
+      ctx.fillStyle = golden;
+      ctx.fill();
+      ctx.restore();
+    });
 
     // Body
     ctx.beginPath();
-    ctx.ellipse(2, sleeping ? -10 : -18, 26, sleeping ? 12 : 16, sleeping ? 0.15 : 0, 0, Math.PI * 2);
+    ctx.ellipse(2, -18, 26, 16, 0, 0, Math.PI * 2);
     ctx.fillStyle = cream;
     ctx.fill();
 
     // Body curls
     for (let i = 0; i < 8; i++) {
       ctx.beginPath();
-      ctx.arc(-20 + i * 6, (sleeping ? -14 : -22) + Math.sin(i * 1.4) * 6, 5, 0, Math.PI * 2);
+      ctx.arc(-20 + i * 6, -22 + Math.sin(i * 1.4) * 6, 5, 0, Math.PI * 2);
       ctx.fillStyle = i % 2 === 0 ? '#EDD5A0' : cream;
       ctx.fill();
     }
     ctx.beginPath();
-    ctx.ellipse(2, sleeping ? -10 : -18, 20, sleeping ? 8 : 11, sleeping ? 0.15 : 0, 0, Math.PI * 2);
+    ctx.ellipse(2, -18, 20, 11, 0, 0, Math.PI * 2);
     ctx.fillStyle = cream;
     ctx.fill();
 
-    // Red collar
+    // Collar
     ctx.beginPath();
-    ctx.roundRect(-12, sleeping ? -4 : -12, 26, 5, 2);
+    ctx.roundRect(-12, -12, 26, 5, 2);
     ctx.fillStyle = '#CC2222';
     ctx.fill();
 
-    // Head position changes when sleeping
-    const hx = sleeping ? -5 : 18;
-    const hy = sleeping ? -16 : -36;
-
     // Ears
     ctx.beginPath();
-    ctx.ellipse(hx - 10, hy - 10, 7, 12, -0.2, 0, Math.PI * 2);
+    ctx.ellipse(10, -48, 7, 12, -0.2, 0, Math.PI * 2);
     ctx.fillStyle = golden;
     ctx.fill();
     ctx.beginPath();
-    ctx.ellipse(hx + 10, hy - 10, 7, 12, 0.2, 0, Math.PI * 2);
+    ctx.ellipse(28, -48, 7, 12, 0.2, 0, Math.PI * 2);
     ctx.fillStyle = golden;
     ctx.fill();
 
     // Head
     ctx.beginPath();
-    ctx.arc(hx, hy, 16, 0, Math.PI * 2);
+    ctx.arc(18, -38, 16, 0, Math.PI * 2);
     ctx.fillStyle = '#EDD5A0';
     ctx.fill();
-
-    // Head curls
     for (let i = 0; i < 6; i++) {
       const a = (i / 6) * Math.PI * 2;
       ctx.beginPath();
-      ctx.arc(hx + Math.cos(a) * 13, hy + Math.sin(a) * 13, 6, 0, Math.PI * 2);
+      ctx.arc(18 + Math.cos(a) * 13, -38 + Math.sin(a) * 13, 6, 0, Math.PI * 2);
       ctx.fillStyle = i % 2 === 0 ? '#EDD5A0' : cream;
       ctx.fill();
     }
     ctx.beginPath();
-    ctx.arc(hx, hy, 11, 0, Math.PI * 2);
+    ctx.arc(18, -38, 11, 0, Math.PI * 2);
     ctx.fillStyle = cream;
     ctx.fill();
 
     // Eyes
-    if (sleeping) {
-      [hx - 4, hx + 4].forEach(ex => {
-        ctx.beginPath();
-        ctx.arc(ex, hy + 1, 3, Math.PI + 0.4, Math.PI * 2 - 0.4);
-        ctx.strokeStyle = dark;
-        ctx.lineWidth = 1.8;
-        ctx.stroke();
-      });
-      // zzz
-      ctx.fillStyle = dark;
-      ctx.font = 'bold 9px sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText('z', hx + 14, hy - 14);
-      ctx.font = 'bold 7px sans-serif';
-      ctx.fillText('z', hx + 20, hy - 22);
-      ctx.font = 'bold 5px sans-serif';
-      ctx.fillText('z', hx + 25, hy - 28);
-    } else {
-      [hx - 4, hx + 4].forEach(ex => {
-        ctx.beginPath();
-        ctx.arc(ex, hy - 1, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#5BA33A';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(ex, hy - 1, 2, 0, Math.PI * 2);
-        ctx.fillStyle = '#111';
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(ex + 1, hy - 2, 0.8, 0, Math.PI * 2);
-        ctx.fillStyle = 'white';
-        ctx.fill();
-      });
-    }
+    [14, 22].forEach(ex => {
+      ctx.beginPath();
+      ctx.arc(ex, -39, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#5BA33A';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(ex, -39, 2, 0, Math.PI * 2);
+      ctx.fillStyle = '#111';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(ex + 1, -40, 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+    });
 
     // Nose
     ctx.beginPath();
-    ctx.ellipse(hx, hy + 5, 4, 3, 0, 0, Math.PI * 2);
+    ctx.ellipse(18, -33, 4, 3, 0, 0, Math.PI * 2);
     ctx.fillStyle = '#C87070';
     ctx.fill();
 
