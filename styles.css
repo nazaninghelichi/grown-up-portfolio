@@ -5,14 +5,14 @@
 }
 
 :root {
-    --bg-white: #FFFFFF;
-    --border-gray: #EAEAEA;
-    --text-dark: #1A1A1A;
-    --text-gray: #6B6B6B;
-    --text-light: #999999;
-    --bg-light: #F6F6F6;
-    --accent-blue: #2563EB;
-    --accent-hover: #1E40AF;
+    --bg-white: #FAF7F2;
+    --border-gray: #E2D9CE;
+    --text-dark: #2A1F14;
+    --text-gray: #6B5A48;
+    --text-light: #9A8878;
+    --bg-light: #F2EDE6;
+    --accent-blue: #4A5E3A;
+    --accent-hover: #3A4E2A;
 }
 
 body {
@@ -262,9 +262,9 @@ main {
 }
 
 .filter-btn.active {
-    background-color: var(--text-dark);
+    background-color: var(--accent-blue);
     color: var(--bg-white);
-    border-color: var(--text-dark);
+    border-color: var(--accent-blue);
 }
 
 /* Carousel */
