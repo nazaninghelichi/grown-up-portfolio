@@ -162,7 +162,7 @@
       this.vy = 0;
       this.dropping = true;
       this.groundY = canvasH - 10;
-      this.vx = (Math.random()>0.5?1:-1)*(0.6+Math.random()*0.7);
+      this.vx = (Math.random()>0.5?1:-1)*(0.2+Math.random()*0.25);
       this.facing = this.vx>0?1:-1;
       this.t = Math.random()*100;
       this.state = Math.random() < 0.5 ? 'sleeping' : 'walking';
@@ -219,7 +219,7 @@
         } else {
           this.state='walking';
           this.stateDuration=60+Math.floor(Math.random()*80);
-          this.vx=(Math.random()>0.5?1:-1)*(0.5+Math.random()*0.5);
+          this.vx=(Math.random()>0.5?1:-1)*(0.2+Math.random()*0.25);
           this.facing=this.vx>0?1:-1;
         }
       }
