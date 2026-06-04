@@ -7,22 +7,22 @@
 
   // ── Canvas ───────────────────────────────────────────────────────
   const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;height:260px;z-index:9999;cursor:default';
+  canvas.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;height:140px;z-index:9999;cursor:default;background:transparent';
   document.body.appendChild(canvas);
   const ctx = canvas.getContext('2d');
 
-  function resize() { canvas.width = window.innerWidth; canvas.height = 260; updateZones(); }
+  function resize() { canvas.width = window.innerWidth; canvas.height = 140; updateZones(); }
   window.addEventListener('resize', resize);
 
   // ── Zones ─────────────────────────────────────────────────────────
   let Z = {};
   function updateZones() {
     const w = canvas.width, h = canvas.height;
-    Z.grass  = { x:w*0.2, y:h-130, w:w*0.6, h:130 };
-    Z.bedX   = 55;
-    Z.bedY   = h - 78;
-    Z.trashX = w - 75;
-    Z.trashY = h - 88;
+    Z.grass  = { x:w*0.15, y:0, w:w*0.7, h:h };
+    Z.bedX   = 20;
+    Z.bedY   = h - 70;
+    Z.trashX = w - 70;
+    Z.trashY = h - 80;
     Z.ground = h - 18;
   }
 
@@ -220,33 +220,23 @@
     ctx.fillText(text,x,by+bh/2);
   }
 
-  function drawHUD() {
-    const w=canvas.width;
-    ctx.fillStyle='rgba(255,255,255,0.88)';
-    ctx.fillRect(0,0,w,48);
-    ctx.strokeStyle='#eaeaea'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(0,48); ctx.lineTo(w,48); ctx.stroke();
-
-    const bars=[
-      {label:'🍖 Hunger', val:G.hunger, col:'#E8803A'},
-      {label:'😊 Happy',  val:G.happy,  col:'#E8C830'},
-      {label:'💤 Energy', val:G.energy, col:'#6090E8'},
-      {label:'💧 Bladder',val:G.bladder,col:'#50C8E8'},
+  function drawMiniStats(x, y) {
+    // tiny pill above Hannah showing needs as colored dots
+    const stats=[
+      {val:G.hunger, col:'#E8803A'},
+      {val:G.happy,  col:'#E8C830'},
+      {val:G.energy, col:'#6090E8'},
     ];
-    const bw=Math.min(140,(w-60)/4-24), gap=24;
-    const totalW=bars.length*(bw+gap)-gap;
-    let bx=(w-totalW)/2;
-
-    bars.forEach(b => {
-      ctx.fillStyle='#555'; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='left'; ctx.textBaseline='middle';
-      ctx.fillText(b.label,bx,16);
-      ctx.beginPath(); ctx.roundRect(bx,26,bw,10,5); ctx.fillStyle='#f0f0f0'; ctx.fill();
-      const fw=(b.val/100)*bw;
-      if (fw>0) {
-        ctx.beginPath(); ctx.roundRect(bx,26,fw,10,5);
-        ctx.fillStyle=b.val<25?'#E85050':b.col; ctx.fill();
-      }
-      bx+=bw+gap;
+    const r=5, gap=14, totalW=stats.length*gap-gap+r*2;
+    const bx=x-totalW/2, by=y;
+    stats.forEach((s,i) => {
+      const cx=bx+i*gap+r, cy=by;
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle=s.val<25?'#E85050':s.col; ctx.fill();
+      ctx.globalAlpha=0.3+s.val/100*0.7;
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle=s.val<25?'#E85050':s.col; ctx.fill();
+      ctx.globalAlpha=1;
     });
   }
 
@@ -477,19 +467,14 @@
     // particles
     G.particles.forEach(p=>{ ctx.save(); ctx.globalAlpha=p.life; ctx.fillStyle=p.col; ctx.beginPath(); ctx.arc(p.x,p.y,4,0,Math.PI*2); ctx.fill(); ctx.restore(); });
 
+    // mini stats above Hannah
+    drawMiniStats(G.hx+16, G.hy-78);
+
     // poop hint
     if (G.poops.length>0) {
-      ctx.fillStyle='#E85050'; ctx.font='bold 11px -apple-system,sans-serif'; ctx.textAlign='center';
-      ctx.fillText('drag 💩 to the trashcan!',canvas.width/2,62);
+      ctx.fillStyle='rgba(220,80,80,0.85)'; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='center';
+      ctx.fillText('drag 💩 to 🗑️',canvas.width/2, Z.ground-90);
     }
-
-    // drag hint
-    if (G.hState==='idle'&&G.poops.length===0) {
-      ctx.fillStyle='#aaa'; ctx.font='10px -apple-system,sans-serif'; ctx.textAlign='center';
-      ctx.fillText('drag Hannah to 🌿 for a walk • drag 🧸 or 🥣 to her • pet her with cursor',canvas.width/2,62);
-    }
-
-    drawHUD();
   }
 
   // ── Boot ──────────────────────────────────────────────────────────
