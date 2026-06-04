@@ -288,7 +288,7 @@
   }
 
   function spawnDrop() {
-    if (dogs.length >= 10) return;
+    if (dogs.length >= 100) return;
     const d = new Dog(canvas.width, canvas.height, nextSign());
     d.x = 60 + Math.random()*(canvas.width-160);
     dogs.push(d);
