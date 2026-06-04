@@ -35,6 +35,8 @@
     t: 0,
     // needs
     hunger: 80, happy: 75, energy: 90, bladder: 0,
+    // food item
+    food: null,  // {x, y, dragging, dragOx, dragOy} or null
     // hannah
     x: HOUSE_X + HOUSE_W/2, y: GROUND,
     vx: 0.5, facing: 1,
@@ -225,6 +227,11 @@
         return;
       }
     }
+    // drag food
+    if(G.food&&Math.hypot(x-G.food.x,y-G.food.y)<18){
+      G.food.dragging=true;G.food.dragOx=x-G.food.x;G.food.dragOy=y-G.food.y;
+      return;
+    }
     // drag hannah (or from house door)
     const fromHouse=G.state==='inside'&&x>=HOUSE_X&&x<=HOUSE_X+HOUSE_W&&y>=HOUSE_TOP;
     if(fromHouse||nearHannah(x,y)){
@@ -243,12 +250,24 @@
         if(Math.random()<.05) G.hearts.push({x:G.x+16+(Math.random()-.5)*28,y:G.y-52,life:1.2,max:1.2,a:1});
       }
     }
+    if(G.food?.dragging){G.food.x=x-G.food.dragOx;G.food.y=y-G.food.dragOy;}
     if(G.dragging){G.x=x-G.dragOx;G.y=y-G.dragOy;}
   });
 
   canvas.addEventListener('mouseup',e=>{
+    const{x,y}=pos(e);
+    // drop food near Hannah
+    if(G.food?.dragging){
+      G.food.dragging=false;
+      if(G.state!=='inside'&&nearHannah(x,y,60)){
+        G.hunger=Math.min(100,G.hunger+40);
+        G.flash='yum! 😋';G.flashTimer=2;
+        spawnParticles(G.x+16,G.y-30,'#E8803A');
+        G.food=null;
+      }
+      return;
+    }
     if(!G.dragging)return;
-    const{x}=pos(e);
     G.dragging=false;
     G.y=GROUND;
     if(nearHouse(x)){
@@ -267,8 +286,8 @@
 
   // Dashboard buttons
   document.getElementById('h-feed').onclick=()=>{
-    G.hunger=Math.min(100,G.hunger+40);G.flash='yum! 😋';G.flashTimer=2;
-    spawnParticles(G.x+16,G.y-30,'#E8803A');
+    // spawn draggable food item near the button/house
+    G.food={x:HOUSE_X+HOUSE_W+20,y:GROUND-10,dragging:false,dragOx:0,dragOy:0};
   };
   document.getElementById('h-toy').onclick=()=>{
     G.happy=Math.min(100,G.happy+35);G.flash='yay! 🧸';G.flashTimer=2;
@@ -373,6 +392,26 @@
       ctx.fillStyle='rgba(255,255,255,0.15)';ctx.fill();
       ctx.globalAlpha=1;ctx.restore();
     });
+
+    // food item
+    if(G.food){
+      const f=G.food;
+      ctx.save();ctx.translate(f.x,f.y);
+      // bone shape
+      const bc='#F5DEB3', bd='#D4A060';
+      ctx.strokeStyle=bd;ctx.lineWidth=2;ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(-10,0);ctx.lineTo(10,0);ctx.strokeStyle=bc;ctx.lineWidth=6;ctx.stroke();
+      ctx.strokeStyle=bd;ctx.lineWidth=2;ctx.stroke();
+      [[-10,0],[10,0]].forEach(([ex,ey])=>{
+        [[-4,-4],[4,-4],[4,4],[-4,4]].forEach(([ox,oy])=>{
+          ctx.beginPath();ctx.arc(ex+ox*.5,ey+oy*.5,4,0,Math.PI*2);ctx.fillStyle=bc;ctx.fill();ctx.strokeStyle=bd;ctx.lineWidth=1.5;ctx.stroke();
+        });
+      });
+      // label
+      ctx.fillStyle='#888';ctx.font='9px sans-serif';ctx.textAlign='center';
+      ctx.fillText('drag to Hannah',0,-18);
+      ctx.restore();
+    }
 
     // hannah
     if(G.state!=='inside'){
