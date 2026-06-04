@@ -18,7 +18,7 @@
   let Z = {};
   function updateZones() {
     const w = canvas.width, h = canvas.height;
-    Z.grass  = { x:w*0.3, y:55, w:w*0.4, h:h-75 };
+    Z.grass  = { x:w*0.25, y:h-120, w:w*0.5, h:120 };
     Z.bedX   = 55;
     Z.bedY   = h - 78;
     Z.trashX = w - 75;
@@ -126,19 +126,37 @@
     ctx.fillStyle='rgba(250,248,244,0.97)';
     ctx.fillRect(0,0,w,h);
 
-    // grass zone
+    // grass zone — ground strip with tufts + trees, no filled rectangle
     const g=Z.grass;
-    ctx.beginPath(); ctx.roundRect(g.x,g.y,g.w,g.h,12);
-    ctx.fillStyle='#D4EDBA'; ctx.fill();
-    ctx.strokeStyle='#7CB87A'; ctx.lineWidth=2; ctx.stroke();
-    ctx.fillStyle='#5A8A5A'; ctx.font='11px -apple-system,sans-serif'; ctx.textAlign='center';
-    ctx.fillText('🌿 drag Hannah here to walk',g.x+g.w/2,g.y+16);
-    // grass tufts
-    for (let i=0;i<10;i++) {
-      const gx=g.x+16+(i/(10))*(g.w-32), gy=g.y+g.h-10;
-      ctx.strokeStyle='#6AAB6A'; ctx.lineWidth=2; ctx.lineCap='round';
-      [-3,0,3].forEach(ox => { ctx.beginPath(); ctx.moveTo(gx+ox,gy); ctx.lineTo(gx+ox,gy-7); ctx.stroke(); });
+    const groundY=Z.ground;
+
+    // green ground strip
+    ctx.beginPath(); ctx.roundRect(g.x, groundY-6, g.w, 10, 3);
+    ctx.fillStyle='#7CB87A'; ctx.fill();
+
+    // grass tufts along the strip
+    for (let i=0;i<14;i++) {
+      const gx=g.x+12+(i/13)*(g.w-24);
+      ctx.strokeStyle='#5A9A5A'; ctx.lineWidth=2; ctx.lineCap='round';
+      [[-4,10],[-1,13],[2,11]].forEach(([ox,h2]) => {
+        ctx.beginPath(); ctx.moveTo(gx+ox,groundY-6); ctx.lineTo(gx+ox,groundY-6-h2); ctx.stroke();
+      });
     }
+
+    // small trees
+    [g.x+g.w*0.18, g.x+g.w*0.5, g.x+g.w*0.82].forEach(tx => {
+      const ty=groundY-6;
+      // trunk
+      ctx.beginPath(); ctx.roundRect(tx-3,ty-22,6,22,2); ctx.fillStyle='#8B6030'; ctx.fill();
+      // foliage layers
+      [[0,-38,20],[0,-52,15],[0,-62,11]].forEach(([ox,oy,r]) => {
+        ctx.beginPath(); ctx.arc(tx+ox,ty+oy,r,0,Math.PI*2); ctx.fillStyle='#5A9A3A'; ctx.fill();
+      });
+    });
+
+    // label above the strip
+    ctx.fillStyle='#6A9A6A'; ctx.font='10px -apple-system,sans-serif'; ctx.textAlign='center';
+    ctx.fillText('drag Hannah here to walk',g.x+g.w/2,groundY-80);
 
     // bed
     const bx=Z.bedX, by=Z.bedY;
