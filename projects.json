@@ -65,23 +65,6 @@
       "date": "2026-02"
     },
     {
-      "id": "nutology-nft",
-      "title": "Nutology NFT",
-      "category": "Software Engineering",
-      "description": "NFT protocol with on-chain behavioral tracking—assets evolve based on user interactions",
-      "highlight": "Deployed to Ethereum Sepolia with automated value redistribution logic",
-      "detail": "Solo hackathon project for EasyA x Consensus 2025",
-      "technologies": ["Solidity", "Hardhat", "Ethereum", "IPFS", "Web3.Storage"],
-      "skills": ["Smart Contracts", "Blockchain", "Web3", "NFT Protocol Design"],
-      "github": "https://github.com/nazaninghelichi/nutology-nft",
-      "demo": "",
-      "video": "",
-      "pitch": "https://www.canva.com/design/DAGnn-jG0a8/LR0hsYMlPRO6Jqzs4LEopg/edit?utm_content=DAGnn-jG0a8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
-      "image": "nutology.png",
-      "featured": true,
-      "date": "2025-05"
-    },
-    {
       "id": "gmail-graveyard",
       "title": "Gmail Graveyard",
       "category": "Software Engineering",
