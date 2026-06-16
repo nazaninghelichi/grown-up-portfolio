@@ -10,7 +10,7 @@
       "technologies": ["Python", "scikit-learn", "sentence-transformers", "Streamlit", "Google Books API", "pandas", "numpy"],
       "skills": ["Recommendation Systems", "NLP", "ML Pipelines", "Offline Evaluation", "Streamlit Deployment"],
       "github": "https://github.com/nazaninghelichi/MyNextBook",
-      "demo": "",
+      "demo": "https://mynextbook.streamlit.app/",
       "video": "",
       "image": "mynextbook-screenshot.png",
       "featured": true,
