@@ -13,7 +13,6 @@ async function loadProjects() {
                 return new Date(b.date || '2000-01') - new Date(a.date || '2000-01');
             });
 
-            setupYearFilters(allProjects);
             displayProjects(allProjects);
         } else {
             displayEmptyState();
@@ -22,48 +21,6 @@ async function loadProjects() {
         console.error('Error loading projects:', error);
         displayEmptyState();
     }
-}
-
-// Setup year filter buttons
-function setupYearFilters(projects) {
-    const yearFilters = document.getElementById('year-filters');
-    if (!yearFilters) return;
-
-    // Extract unique years from projects
-    const years = [...new Set(projects.map(p => {
-        const year = p.date ? p.date.split('-')[0] : null;
-        return year;
-    }).filter(Boolean))].sort((a, b) => b - a);
-
-    // Add year buttons
-    years.forEach(year => {
-        const btn = document.createElement('button');
-        btn.className = 'filter-btn';
-        btn.setAttribute('data-year', year);
-        btn.textContent = year;
-        yearFilters.appendChild(btn);
-    });
-
-    // Add click handlers
-    const filterBtns = yearFilters.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Update active state
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Filter projects
-            const selectedYear = btn.getAttribute('data-year');
-            if (selectedYear === 'all') {
-                displayProjects(allProjects);
-            } else {
-                const filtered = allProjects.filter(p =>
-                    p.date && p.date.startsWith(selectedYear)
-                );
-                displayProjects(filtered);
-            }
-        });
-    });
 }
 
 // Display projects in carousel
