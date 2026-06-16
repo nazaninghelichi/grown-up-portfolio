@@ -1,22 +1,6 @@
 {
   "projects": [
     {
-      "id": "hannah-desktop-pet",
-      "title": "Hannah Desktop Pet",
-      "category": "AI Engineering",
-      "description": "A Tamagotchi-style canvas pet that lives at the bottom of any webpage. Feed her, give her toys, take her for walks, pet her with your cursor — she poops, sleeps, and asks for attention.",
-      "highlight": "One script tag, no dependencies — drop into any HTML page and Hannah appears",
-      "detail": "Named after a real golden doodle. Built with vanilla canvas, drag-and-drop interactions, and a full needs system (hunger, happy, energy, bladder).",
-      "technologies": ["JavaScript", "Canvas API", "HTML", "CSS"],
-      "skills": ["Creative Coding", "Game Logic", "Canvas Animation", "Drag and Drop"],
-      "github": "https://github.com/nazaninghelichi/hannah-desktop-pet",
-      "demo": "https://nazaninghelichi.github.io/grown-up-portfolio/",
-      "video": "",
-      "image": "hannah-pet-preview.png",
-      "featured": true,
-      "date": "2026-06"
-    },
-    {
       "id": "mynextbook",
       "title": "MyNextBook — Hybrid Book Recommender",
       "category": "Machine Learning",
