@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume — Nazanin Ghelichi</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .resume-page {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .resume-header-card {
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .resume-name h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .resume-name p {
+            color: var(--text-gray);
+            font-size: 15px;
+        }
+
+        .resume-dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: var(--text-dark);
+            color: var(--bg-white);
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .resume-dl-btn:hover {
+            background-color: var(--text-gray);
+        }
+
+        .resume-section {
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+        }
+
+        .resume-section h2 {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 32px;
+        }
+
+        .skill-row {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        .skill-row strong {
+            color: var(--text-dark);
+        }
+
+        .resume-entry {
+            margin-bottom: 22px;
+        }
+
+        .resume-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .entry-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .entry-date {
+            font-size: 13px;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        .entry-org {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+
+        .entry-bullets {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .entry-bullets li {
+            font-size: 14px;
+            color: var(--text-gray);
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+
+        .entry-bullets li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-light);
+        }
+
+        .entry-inline {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        .project-entry {
+            margin-bottom: 18px;
+        }
+
+        .project-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .project-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .project-link {
+            font-size: 13px;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        .edu-entry {
+            margin-bottom: 16px;
+        }
+
+        .edu-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-degree {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .edu-meta {
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-top: 2px;
+        }
+
+        .edu-thesis {
+            font-size: 13px;
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .certs-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .cert-tag {
+            padding: 4px 12px;
+            background-color: var(--bg-light);
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        @media (max-width: 640px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .resume-section {
+                padding: 20px;
+            }
+
+            .resume-header-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="header-left" style="text-decoration:none;color:inherit;">Nazanin</a>
+            <nav class="header-right">
+                <a href="index.html#projects">Projects</a>
+                <a href="resume.html" style="color:var(--text-dark);font-weight:600;">Resume</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top:40px;padding-bottom:80px;">
+        <div class="resume-page">
+
+            <!-- Name + Download -->
+            <div class="resume-header-card">
+                <div class="resume-name">
+                    <h1>Nazanin Ghelichi</h1>
+                    <p>Toronto, ON &nbsp;·&nbsp; thenazaning@gmail.com &nbsp;·&nbsp;
+                       <a href="https://linkedin.com/in/nazanin-ghelichi" style="color:var(--accent-blue);text-decoration:none;">LinkedIn</a>
+                       &nbsp;·&nbsp;
+                       <a href="https://github.com/nazaninghelichi" style="color:var(--accent-blue);text-decoration:none;">GitHub</a>
+                    </p>
+                </div>
+                <a href="nazanin-ghelichi-resume.pdf" download class="resume-dl-btn">
+                    ↓ Download PDF
+                </a>
+            </div>
+
+            <!-- Skills -->
+            <div class="resume-section">
+                <h2>Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-row"><strong>Languages:</strong> Python, SQL, Excel</div>
+                    <div class="skill-row"><strong>ML / DS:</strong> scikit-learn, XGBoost, LightGBM, PyTorch, Hugging Face, SHAP</div>
+                    <div class="skill-row"><strong>Data:</strong> pandas, NumPy, feature engineering, time-series</div>
+                    <div class="skill-row"><strong>Tools:</strong> Git, Streamlit, Google APIs, Power BI</div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="resume-section">
+                <h2>Experience</h2>
+
+                <div class="resume-entry">
+                    <div class="entry-header">
+                        <span class="entry-title">Founder &amp; Math Tutor</span>
+                        <span class="entry-date">2022 – 2026</span>
+                    </div>
+                    <div class="entry-org">MathoClock</div>
+                    <ul class="entry-bullets">
+                        <li>Built Study-Pal, an AI chatbot converting study intentions into tracked daily goals with automated reminders and leaderboard rankings; grew to 50+ active students.</li>
+                        <li>Designed streak and reward loops sustaining retention without manual intervention; owned full product lifecycle from user research to deployment.</li>
+                    </ul>
+                </div>
+
+                <div class="resume-entry">
+                    <div class="entry-header">
+                        <span class="entry-title">Teaching Assistant</span>
+                        <span class="entry-date">2022 – 2023</span>
+                    </div>
+                    <div class="entry-org">York University</div>
+                    <p class="entry-inline">Statistics, Calculus I &amp; II, Linear Algebra I &amp; II — ran weekly sessions resolving problems students couldn't crack in lecture.</p>
+                </div>
+
+                <div class="resume-entry">
+                    <div class="entry-header">
+                        <span class="entry-title">Business Research Analyst</span>
+                        <span class="entry-date">2020 – 2021</span>
+                    </div>
+                    <div class="entry-org">Diamond Bar and Co</div>
+                    <p class="entry-inline">Automated inventory tracking and analyzed customer behavior via Google Analytics to surface trends informing business decisions.</p>
+                </div>
+
+                <div class="resume-entry">
+                    <div class="entry-header">
+                        <span class="entry-title">Student Researcher — NSERC USRA</span>
+                        <span class="entry-date">2019</span>
+                    </div>
+                    <div class="entry-org">York University</div>
+                    <ul class="entry-bullets">
+                        <li>Conducted original research on the Goldbach Conjecture under faculty supervision; awarded NSERC Undergraduate Student Research Award.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Projects -->
+            <div class="resume-section">
+                <h2>Projects</h2>
+
+                <div class="project-entry">
+                    <div class="project-title-row">
+                        <span class="project-title">IEEE Fraud Detection</span>
+                        <a href="https://github.com/nazaninghelichi/ieee-fraud-detection" class="project-link" target="_blank">GitHub →</a>
+                    </div>
+                    <ul class="entry-bullets">
+                        <li>End-to-end fraud pipeline on 590k transactions; LightGBM + SHAP explainability, cost-matrix threshold tuning; ROC-AUC 0.964, PR-AUC 0.777, 88.5% recall.</li>
+                    </ul>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-title-row">
+                        <span class="project-title">MyNextBook — Hybrid Book Recommender</span>
+                        <a href="https://github.com/nazaninghelichi/MyNextBook" class="project-link" target="_blank">GitHub →</a>
+                    </div>
+                    <ul class="entry-bullets">
+                        <li>Google Books API pipeline (1,300 books), TF-IDF + Sentence Transformer hybrid model, leave-one-out evaluation (Hit Rate@10: 0.290, NDCG@10: 0.141), deployed on Streamlit.</li>
+                    </ul>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-title-row">
+                        <span class="project-title">JobPal — Semantic Job Matching + RAG</span>
+                        <a href="https://github.com/nazaninghelichi/jobpal" class="project-link" target="_blank">GitHub →</a>
+                    </div>
+                    <ul class="entry-bullets">
+                        <li>NLP pipeline for job-resume matching via embeddings and vector search; RAG layer for interview prep with hybrid retrieval and reranking.</li>
+                    </ul>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-title-row">
+                        <span class="project-title">Store Sales Forecasting</span>
+                        <a href="https://github.com/nazaninghelichi/store-sales-forecasting" class="project-link" target="_blank">GitHub →</a>
+                    </div>
+                    <ul class="entry-bullets">
+                        <li>Retail time series forecasting with lag features, rolling means, temporal CV; demonstrates data leakage from random k-fold on time-ordered data.</li>
+                    </ul>
+                </div>
+
+                <div class="project-entry">
+                    <div class="project-title-row">
+                        <span class="project-title">Disaster Tweet Classification</span>
+                        <a href="https://github.com/nazaninghelichi/disaster-tweets" class="project-link" target="_blank">GitHub →</a>
+                    </div>
+                    <ul class="entry-bullets">
+                        <li>Binary NLP classification comparing TF-IDF baselines against fine-tuned DistilBERT; error analysis on sarcasm and figurative language.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="resume-section">
+                <h2>Education</h2>
+
+                <div class="edu-entry">
+                    <div class="entry-header">
+                        <span class="edu-degree">M.Sc. Mathematics</span>
+                        <span class="entry-date">2023 – 2026</span>
+                    </div>
+                    <div class="edu-meta">York University</div>
+                    <p class="edu-thesis">Thesis: <em>Extensive Analysis of Large Rank Elliptic Curves Over Function Fields</em> — Tate's algorithm, zeta-function methods; connects to the Birch–Swinnerton-Dyer conjecture and elliptic curve cryptography.</p>
+                </div>
+
+                <div class="edu-entry">
+                    <div class="entry-header">
+                        <span class="edu-degree">B.Sc. Mathematics &amp; B.Eng. Industrial Engineering</span>
+                        <span class="entry-date">2019 – 2022</span>
+                    </div>
+                    <div class="edu-meta">York University &nbsp;·&nbsp; Dual Degree</div>
+                </div>
+
+                <div class="edu-entry">
+                    <div class="entry-header">
+                        <span class="edu-degree">Certifications</span>
+                    </div>
+                    <div class="certs-row">
+                        <span class="cert-tag">MIT Professional Education: ML &amp; Data Science</span>
+                        <span class="cert-tag">HarvardX: Business Analytics</span>
+                        <span class="cert-tag">IBM: Excel Analytics</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2026 Nazanin Ghelichi</p>
+            <div class="footer-links">
+                <a href="mailto:thenazaning@gmail.com">Email</a>
+                <span>•</span>
+                <a href="https://github.com/nazaninghelichi" target="_blank">GitHub</a>
+                <span>•</span>
+                <a href="https://www.linkedin.com/in/nazanin-ghelichi/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
