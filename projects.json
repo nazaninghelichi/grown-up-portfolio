@@ -17,6 +17,22 @@
       "date": "2026-06"
     },
     {
+      "id": "mynextbook",
+      "title": "MyNextBook — Hybrid Book Recommender",
+      "category": "Machine Learning",
+      "description": "End-to-end book recommendation system built from scratch: data pipeline (Google Books API → 1,300 books), cleaning, EDA, three ML models, offline evaluation, and a deployed Streamlit app.",
+      "highlight": "Hybrid TF-IDF + Sentence Transformer model achieves Hit Rate@10 of 0.290 and NDCG@10 of 0.141 — evaluated with leave-one-out across 300 test cases",
+      "detail": "Random baseline included to confirm genuine signal. Genre-aware re-ranking, author diversity cap, and Amazon purchase links built into the UI.",
+      "technologies": ["Python", "scikit-learn", "sentence-transformers", "Streamlit", "Google Books API", "pandas", "numpy"],
+      "skills": ["Recommendation Systems", "NLP", "ML Pipelines", "Offline Evaluation", "Streamlit Deployment"],
+      "github": "https://github.com/nazaninghelichi/MyNextBook",
+      "demo": "",
+      "video": "",
+      "image": "mynextbook-screenshot.png",
+      "featured": true,
+      "date": "2026-06"
+    },
+    {
       "id": "agentic-research-workflow",
       "title": "Agentic Research Workflow",
       "category": "AI Engineering",
