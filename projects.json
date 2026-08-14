@@ -111,6 +111,22 @@
       "image": "ds-mle-roadmap-dashboard.png",
       "featured": true,
       "date": "2026-01"
+    },
+    {
+      "id": "study-pal",
+      "title": "STUDY PAL",
+      "category": "Software Engineering",
+      "description": "Dual-surface study accountability app, a Telegram bot and a Flask web app sharing one Postgres database, built for my own tutoring students to track daily goals, streaks, and progress.",
+      "highlight": "Buddy-confirmed leaderboard: a parent or friend has to verify themselves by email with a note before any accountability data counts, closing a self-buddying loophole I caught during testing.",
+      "detail": "Custom password-based auth with Werkzeug hashing and admin-issued temporary passwords, a Pomodoro-style focus timer that converts completed sessions into a spendable hearts currency, and a sticker reward system gated behind buddy confirmation. Deployed as two Railway services sharing one Postgres instance.",
+      "technologies": ["Python", "Flask", "python-telegram-bot", "PostgreSQL", "asyncpg", "Werkzeug", "Railway", "Gunicorn", "APScheduler"],
+      "skills": ["Full-Stack Development", "Authentication & Security", "Database Design", "Product Design", "Deployment & DevOps"],
+      "github": "https://github.com/nazaninghelichi/study-pal",
+      "demo": "https://study-pal-web-production.up.railway.app/",
+      "video": "",
+      "image": "",
+      "featured": true,
+      "date": "2026-08"
     }
   ]
 }
