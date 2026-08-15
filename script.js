@@ -27,10 +27,24 @@ async function loadProjects() {
 function displayProjects(projects) {
     const carousel = document.getElementById('projects-carousel');
 
-    carousel.innerHTML = projects.map(project => `
+    carousel.innerHTML = projects.map(project => {
+        const images = (project.images && project.images.length) ? project.images
+            : (project.image ? [project.image] : []);
+        const gallery = images.length > 1;
+        const thumbnail = images.length ? `
+                <img src="${images[0]}" alt="${project.title}">
+                ${gallery ? `
+                <button class="thumb-btn prev" aria-label="Previous screenshot">&lsaquo;</button>
+                <button class="thumb-btn next" aria-label="Next screenshot">&rsaquo;</button>
+                <div class="thumb-dots">
+                    ${images.map((_, i) => `<span class="dot${i === 0 ? ' active' : ''}"></span>`).join('')}
+                </div>` : ''}
+            ` : 'Screenshot';
+
+        return `
         <div class="project-card">
-            <div class="project-thumbnail">
-                ${project.image ? `<img src="${project.image}" alt="${project.title}">` : 'Screenshot'}
+            <div class="project-thumbnail"${images.length ? ` data-images='${JSON.stringify(images)}' data-index="0"` : ''}>
+                ${thumbnail}
             </div>
             <h3>${project.title}</h3>
             <p class="project-subtitle">${project.category}</p>
@@ -54,9 +68,42 @@ function displayProjects(projects) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     setupCarousel();
+    setupGalleries();
+}
+
+// Cycle each project's screenshots via prev/next buttons or dot clicks
+function setupGalleries() {
+    document.querySelectorAll('.project-thumbnail[data-images]').forEach(thumb => {
+        const images = JSON.parse(thumb.dataset.images);
+        const img = thumb.querySelector('img');
+        const dots = thumb.querySelectorAll('.dot');
+
+        function show(index) {
+            const next = (index + images.length) % images.length;
+            thumb.dataset.index = next;
+            img.src = images[next];
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === next));
+        }
+
+        const prevBtn = thumb.querySelector('.thumb-btn.prev');
+        const nextBtn = thumb.querySelector('.thumb-btn.next');
+        if (prevBtn) prevBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            show(parseInt(thumb.dataset.index, 10) - 1);
+        });
+        if (nextBtn) nextBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            show(parseInt(thumb.dataset.index, 10) + 1);
+        });
+        dots.forEach((dot, i) => dot.addEventListener('click', e => {
+            e.stopPropagation();
+            show(i);
+        }));
+    });
 }
 
 // Display empty state

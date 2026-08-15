@@ -124,7 +124,8 @@
       "github": "https://github.com/nazaninghelichi/study-pal",
       "demo": "https://study-pal-web-production.up.railway.app/",
       "video": "",
-      "image": "",
+      "image": "study-pal-login.png",
+      "images": ["study-pal-login.png", "study-pal-dashboard.png", "study-pal-streak.png", "study-pal-leaderboard.png"],
       "featured": true,
       "date": "2026-08"
     }
